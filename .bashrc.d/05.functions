@@ -1,0 +1,81 @@
+#!/bin/bash
+
+update_master_from_upstream() {
+  git checkout master
+  git fetch -p upstream
+  git merge upstream/master
+}
+
+exec_foreach_submodule() {
+  local cmd="${@}"
+  git submodule foreach "${cmd}"
+}
+
+start_dwconfig() {
+  echo "Starting DW Configuration Service..."
+  nohup java -jar ${HOME}/src/datawave-microservices-root/datawave-config-service/target/config-service*-exec.jar \
+    --spring.profiles.active=dev,nomessaging,native,open_actuator \
+    --spring.cloud.config.server.native.searchLocations=file://$PWD/sample_configuration \
+    > ${HOME}/logs/dwconfig.log 2>&1 < /dev/null &
+  echo "$!" > ${HOME}/logs/dwconfig_pid
+}
+
+stop_dwconfig() {
+  echo "Stopping DW Configuration Service..."
+  kill -9 "$( cat ${HOME}/logs/dwconfig_pid )"
+}
+
+start_dwauth() {
+  echo "Starting DW Authorization Service..."
+  nohup java -jar ${HOME}/src/datawave-microservices-root/datawave-authorization-service/service/target/authorization-service*-exec.jar \
+    --spring.profiles.active=dev,nomessaging,mock \
+    > ${HOME}/logs/dwauth.log 2>&1 < /dev/null &
+  echo "$!" > ${HOME}/logs/dwauth_pid
+}
+
+stop_dwauth() {
+  echo "Stopping DW Authorization Service..."
+  kill -9 "$( cat ${HOME}/logs/dwauth_pid )"
+}
+
+start_dwdict() {
+  echo "Starting DW Dictionary Service..."
+  nohup java -jar ${HOME}/src/datawave-microservices-root/datawave-dictionary-service/service/target/dictionary-service*-exec.jar \
+    --spring.profiles.active=dev,nomessaging,remoteauth \
+    > ${HOME}/logs/dwdict.log 2>&1 < /dev/null &
+  echo "$!" > ${HOME}/logs/dwdict_pid
+}
+
+stop_dwdict() {
+  echo "Stopping DW Dictionary Service..."
+  kill -9 "$( cat ${HOME}/logs/dwdict_pid )"
+}
+
+start_microservices() {
+  start_dwconfig
+  start_dwauth
+  start_dwdict
+}
+
+stop_microservices() {
+  stop_dwdict
+  stop_dwauth
+  stop_dwconfig
+}
+
+build_microservices() {
+  pushd ${HOME}/src/datawave-microservices-root
+  mvn -Pexec clean install
+  popd
+}
+
+sha256() {
+  shasum -a 256 $1 | awk '{ print $1 }'
+}
+
+list_chmod_codes() {
+  echo "0: ---   4: r--"
+  echo "1: --x   5: r-x"
+  echo "2: -w-   6: rw-"
+  echo "3: -wx   7: rwx"
+}

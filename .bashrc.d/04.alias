@@ -1,0 +1,91 @@
+#!/bin/bash
+
+# Enable color by default.
+ls="ls --color=auto"
+grep="grep --color=auto"
+fgrep="fgrep --color=auto"
+egrep="egrep --color=auto"
+
+# More ls aliases
+ll="ls -alF"
+la="ls -A"
+l="ls -CF"
+
+# Shortcuts for editing files
+alias vbash="vim ${HOME}/.bashrc"
+alias valias="vim ${HOME}/.bashrc.d/04.alias"
+alias vfunc="vim ${HOME}/.bashrc.d/05.functions"
+alias vgit="vim ${HOME}/.gitconfig"
+alias vuno="vim ${HOME}/src/fluo-uno/conf/uno.conf"
+
+# Source the .bashrc file.
+alias reload="source ${HOME}/.bashrc"
+
+# Maven shortcuts.
+alias mci="mvn clean install -DskipTests"
+alias mcit="mvn clean install"
+alias mc="mvn clean"
+alias mcp="mvn clean package -DskipTests"
+
+# Git shortcuts.
+alias g="git"
+alias gst="git status"
+alias gco="git checkout"
+alias gcoall="git checkout -- ."
+alias gcob="git checkout -b"
+alias ga="git add"
+alias gaa="git add -A"
+alias gc="git commit"
+alias gcm="git commit -m"
+alias gamend="git commit --amend"
+alias gf="git fetch -p"
+alias gfu="git fetch -p upstream"
+alias gm="git merge --ff-only"
+alias gmum="git merge --ff-only upstream/master"
+alias gpl="git pull"
+alias gpu="git push"
+alias gpuf="git push -f"
+alias gls="git ls"
+alias gb="git branch"
+alias gbd="git branch -D"
+alias gbr="git branch -r"
+alias gdiff="git diff"
+alias grm="git rebase master"
+alias grmi="git rebase master --interactive"
+
+# Git submodule shortcuts.
+alias gsf="exec_foreach_submodule"
+alias gsco="gsf git checkout"
+alias gspl="gsf git pull"
+
+# Accumulo shell startup.
+alias ashell="uno ashell"
+
+# Source DATAWAVE environment requirements.
+alias srcdw="source ${DATAWAVE_SOURCE}/contrib/datawave-quickstart/bin/env.sh"
+
+# Common cd commands.
+alias cdd="cd ${HOME}/src/datawave"
+alias cddm="cd ${HOME}/src/datawave-microservices-root"
+alias cda="cd ${HOME}/src/accumulo"
+alias cde="cd ${HOME}/src/accumulo-examples"
+alias cdt="cd ${HOME}/src/accumulo-testing"
+alias cdw="cd ${HOME}/src/accumulo-website"
+alias cdf="cd ${HOME}/src/fluo-uno"
+alias cdfm="cd ${HOME}/src/fluo-muchos"
+
+# List chmod codes.
+alias lchmod="list_chmod_codes"
+
+# Shortcut to build Datawave.
+alias mcidw="mvn -Pdev -Ddeploy -Dtar -Ddist -Dservices -DskipTests clean install --builder smart -T1.0C"
+
+# Shortcuts for DW microservices
+alias buildms="build_microservices"
+alias startms="start_microservices"
+alias stopms="stop_microservices"
+alias tailconfig="tail -f ${HOME}/data/logs/dwconfig.log"
+alias tailauth="tail -f ${HOME}/data/logs/dwauth.log"
+alias taildict="tail -f ${HOME}/data/logs/dwdict.log"
+
+alias dotfiles='/usr/bin/git --git-dir=/home/lauraschanno/.dotfiles/ --work-tree=/home/lauraschanno'

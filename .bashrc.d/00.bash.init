@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# Bash options
+HISTCONTROL=ignoredups,ignorespace
+HISTSIZE=1000
+HISTFILESIZE=5000
+HISTTIMEFORMAT="%H:%M"
+HISTIGNORE="&:ll:ls:bm:h"
+
+ulimit -S -c 0 # Don't want any core dumps
+
+shopt -s cdspell # Correct dir spellings
+shopt -q -s cmdhist # Make mulit-line commandlines in history
+shopt -s checkwinsize # Make sure display gets updated when terminal is resized
+shopt -s cmdhist
+shopt -s histappend histreedit histverify
+shopt -q -s extglob # Turn on extended pattern matching features
+
+# Enable programmable completion features
+if ! shopt -oq posix; then
+  if [[ -f /usr/share/bash-completion/bash_completion ]]; then
+    source /usr/share/bash-completion/bash_completion
+  elif [[ -f /etc/bash_completion ]]; then
+    source /etc/bash_completion
+  fi
+fi
