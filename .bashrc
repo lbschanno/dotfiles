@@ -14,15 +14,4 @@ if [[ -d ${HOME}/.bashrc.d ]]; then
   done
 fi
 
-#export FLUO_HOME=${HOME}/src/fluo-uno
-#export HADOOP_HOME=${FLUO_HOME}/install/hadoop-3.2.0
-#export ZOOKEEPER_HOME=${FLUO_HOME}/install/zookeeper-3.4.14
-#export ACCUMULO_VERSION="2.0.0-SNAPSHOT"
-#export ACCUMULO_HOME=${FLUO_HOME}/install/accumulo-${ACCUMULO_VERSION}
-#pushd "${FLUO_HOME}" > /dev/null
-#eval "$( ./bin/uno env )"
-#popd > /dev/null
-
-export DW_SOURCE=${HOME}/src/datawave
-
-source ${DW_SOURCE}/contrib/datawave-quickstart/bin/env.sh
+${HOME}/bin/set-development-env "datawave-quickstart"

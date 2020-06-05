@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # Enable color by default.
-ls="ls --color=auto"
-grep="grep --color=auto"
-fgrep="fgrep --color=auto"
-egrep="egrep --color=auto"
+alias ls="ls --color=auto"
+alias grep="grep --color=auto"
+alias fgrep="fgrep --color=auto"
+alias egrep="egrep --color=auto"
 
 # More ls aliases
-ll="ls -alF"
-la="ls -A"
-l="ls -CF"
+alias ll="ls -alF"
+alias la="ls -A"
+alias l="ls -CF"
 
 # Shortcuts for editing files
 alias vbash="vim ${HOME}/.bashrc"
