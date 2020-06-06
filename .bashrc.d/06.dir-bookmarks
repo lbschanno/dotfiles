@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+export DIR_BOOKMARK_FILE="${HOME}/data/dir-bookmarks"
+alias bm="pwd >> ${DIR_BOOKMARK_FILE}" # Add new directory bookmark
+alias lbm='egrep -v "(^\s*#|^\s*$)" ${DIR_BOOKMARK_FILE} | fzf' # List and fuzzy-find a bookmark
+alias cdb='cd "$(lbm)"' # cd to a bookmarked directory
