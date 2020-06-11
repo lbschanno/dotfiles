@@ -46,6 +46,8 @@
     untrack = rm --cache --
     # List local commits that weren't pushed yet.
     review-local = "!git lg @{push}"
+    # Use fzf to support selecting files to add from commandline.
+    ffa = "!git ls-files -m -o --exclude-standard | fzf --print0 -m | xargs -0 -t -o git add"
 [core]
     autocrlf = input
     editor = vim

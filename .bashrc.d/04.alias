@@ -52,6 +52,7 @@ alias gbr="git branch -r"
 alias gdiff="git diff"
 alias grm="git rebase master"
 alias grmi="git rebase master --interactive"
+alias gffa="git ffa"
 
 # Git submodule shortcuts.
 alias gsf="exec_foreach_submodule"
