@@ -1,0 +1,111 @@
+#!/bin/bash
+
+configuration_src="${MICROSERVICE_SRC}/datawave-config-service"
+authorization_src="${MICROSERVICE_SRC}/datawave-authorization-service"
+dictionary_src="${MICROSERVICE_SRC}/datawave-dictionary-service"
+
+configuration_pid_file="${MICROSERVICE_LOGS}/configuration_pid"
+authorization_pid_file="${MICROSERVICE_LOGS}/authorization_pid"
+dictionary_pid_file="${MICROSERVICE_LOGS}/dictionary_pid"
+
+build_all() {
+  build_project "${MICROSERVICE_SRC}"
+}
+
+build_configuration() {
+  build_project "${configuration_src}"
+}
+
+build_authorization() {
+  build_project "${authorization_src}"
+}
+
+build_dictionary() {
+  build_project "${dictionary_src}"
+}
+
+build_project() {
+  local project="$1"
+  mvn -Pexec clean install -f "${project}"
+}
+
+start_all() {
+  start_configuration
+  start_authorization
+  start_dictionary
+}
+
+start_configuration() {
+  local cmd="java -Dlog4j.configurationFile=${HOME}/bin/microservices-log4j2/configuration-log4j2.yml \
+-jar ${configuration_src}/target/config-service*-exec.jar \
+--spring.profiles.active=dev,nomessaging,native,open_actuator \
+--spring.cloud.config.server.native.searchLocations=file://$PWD/sample_configuration"
+  start_service "configuration" "${cmd}" "${configuration_pid_file}"
+}
+
+start_authorization() {
+  local cmd="java -Dlog4j.configurationFile=${HOME}/bin/microservices-log4j2/authorization-log4j2.yml \
+-jar ${authorization_src}/service/target/authorization-service*-exec.jar \
+--spring.profiles.active=dev,nomessaging,mock"
+  start_service "authorization" "${cmd}" "${authorization_pid_file}"
+}
+
+start_dictionary() {
+  local cmd="java -Dlog4j.configurationFile=${HOME}/bin/microservices-log4j2/dictionary-log4j2.yml \
+-jar ${dictionary_src}/service/target/dictionary-service*-exec.jar \
+--spring.profiles.active=dev,nomessaging,remoteauth"
+  start_service "dictionary" "${cmd}" "${dictionary_pid_file}"
+}
+
+start_service() {
+  local service="$1"
+  local cmd="$2"
+  local pid_file="$3"
+  echo "Starting ${service} microservice..."
+  eval "nohup "${cmd}" > /dev/null 2>&1 &"
+  echo "$!" > "${pid_file}"
+}
+
+stop_all() {
+  stop_dictionary
+  stop_authorization
+  stop_configuration
+}
+
+stop_dictionary() {
+  stop_service "dictionary" "${dictionary_pid_file}"
+}
+
+stop_authorization() {
+  stop_service "authorization" "${authorization_pid_file}"
+}
+
+stop_configuration() {
+  stop_service "configuration" "${configuration_pid_file}"
+}
+
+stop_service() {
+  local service="$1"
+  local pid_file="$2"
+  echo "Stopping ${service} microservice..."
+  kill -9 "$( cat "${pid_file}" )"
+}
+
+main() {
+  local cmd="$1"
+  local service="$2"
+
+  if [[ $cmd == @(build|start|stop) ]]; then
+    if [[ $service == @(all|configuration|authorization|dictionary) ]]; then
+      eval "${cmd}_${service}"
+    else
+      echo "Invalid service. Valid services: all configuration authorization dictionary"
+      exit 1
+    fi
+  else
+    echo "Invalid command. Valid commands: build start stop"
+    exit 1
+  fi
+}
+
+main "${@}"

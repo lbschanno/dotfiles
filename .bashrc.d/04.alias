@@ -82,11 +82,9 @@ alias lchmod="list_chmod_codes"
 alias mcidw="mvn -Pdev -Ddeploy -Dtar -Ddist -Dservices -DskipTests clean install --builder smart -T1.0C"
 
 # Shortcuts for DW microservices
-alias buildms="build_microservices"
-alias startms="start_microservices"
-alias stopms="stop_microservices"
-alias tailconfig="tail -f ${HOME}/data/logs/dwconfig.log"
-alias tailauth="tail -f ${HOME}/data/logs/dwauth.log"
-alias taildict="tail -f ${HOME}/data/logs/dwdict.log"
+alias mms="${HOME}/bin/manage-microservices"
+alias tconfig="tail -f ${MICROSERVICE_LOGS}/configuration.log"
+alias tauth="tail -f ${MICROSERVICE_LOGS}/authorization.log"
+alias tdict="tail -f ${MICROSERVICE_LOGS}/dictionary.log"
 
 alias dotfiles='/usr/bin/git --git-dir=/home/lauraschanno/.dotfiles/ --work-tree=/home/lauraschanno'
