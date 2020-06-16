@@ -14,4 +14,4 @@ if [[ -d ${HOME}/.bashrc.d ]]; then
   done
 fi
 
-${HOME}/bin/set-development-env "datawave-quickstart"
+source ${HOME}/bin/set-development-env "datawave-quickstart"
