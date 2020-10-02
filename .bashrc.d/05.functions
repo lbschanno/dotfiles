@@ -1,23 +1,34 @@
 #!/bin/bash
 
-update_master_from_upstream() {
-  git checkout master
-  git fetch -p upstream
-  git merge upstream/master
+is-in-git-repo() {
+  git rev-parse HEAD > /dev/null 2>&1
 }
 
-exec_foreach_submodule() {
-  local cmd="${@}"
-  git submodule foreach "${cmd}"
+fzf-git-branch() {
+  is-in-git-repo || return
+  git branch --color=always --all --sort=-committerdate |
+  grep -v HEAD | 
+  fzf --height=50% --ansi --no-multi --preview-window 'right:65%' \
+  --preview 'git log --oneline --graph --date=short --color=always --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1) | head -'$LINES |
+  sed "s/.* //"
 }
 
-sha256() {
-  shasum -a 256 $1 | awk '{ print $1 }'
-}
+fzf-git-checkout() {
+  is-in-git-repo || return
+  
+  local branch
+  branch="$( fzf-git-branch )"
+  if [[ $branch = "" ]]; then 
+    echo "No branch selected"
+    return
+  fi
 
-list_chmod_codes() {
-  echo "0: ---   4: r--"
-  echo "1: --x   5: r-x"
-  echo "2: -w-   6: rw-"
-  echo "3: -wx   7: rwx"
+  # If branch name starts with 'remotes/' then it is a remote branch. By using
+  # --track and a remote branch name, it is the same as: 
+  # git checkout -b branchName --track origin/branchName'
+  if [[ $branch = 'remotes/*' ]]; then
+    git checkout --track $branch
+  else
+    git checkout $branch
+  fi
 }

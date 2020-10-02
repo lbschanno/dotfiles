@@ -31,7 +31,9 @@ build_project() {
 
 start_all() {
   start_configuration
+  sleep 5
   start_authorization
+  sleep 5
   start_dictionary
 }
 

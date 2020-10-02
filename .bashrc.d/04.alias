@@ -81,6 +81,9 @@ alias lchmod="list_chmod_codes"
 # Shortcut to build Datawave.
 alias mcidw="mvn -Pdev -Ddeploy -Dtar -Ddist -Dservices -DskipTests clean install --builder smart -T1.0C"
 
+# Shortcut to rebuild and deploy quickstart Datawave.
+alias dbd="datawaveBuildDeploy"
+
 # Shortcuts for DW microservices
 alias mms="${HOME}/bin/manage-microservices"
 alias tconfig="tail -f ${MICROSERVICE_LOGS}/configuration.log"
