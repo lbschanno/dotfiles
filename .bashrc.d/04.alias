@@ -13,10 +13,12 @@ alias l="ls -CF"
 
 # Shortcuts for editing files
 alias vbash="vim ${HOME}/.bashrc"
+alias venv="vim ${HOME}/.bashrc.d/02.env"
 alias valias="vim ${HOME}/.bashrc.d/04.alias"
 alias vfunc="vim ${HOME}/.bashrc.d/05.functions"
 alias vgit="vim ${HOME}/.gitconfig"
 alias vuno="vim ${HOME}/src/fluo-uno/conf/uno.conf"
+alias vmvn="vim ${HOME}/.m2/settings.xml"
 
 # Source the .bashrc file.
 alias reload="source ${HOME}/.bashrc"
@@ -53,6 +55,7 @@ alias gdiff="git diff"
 alias grm="git rebase master"
 alias grmi="git rebase master --interactive"
 alias gffa="git ffa"
+alias gcp="git cherry-pick"
 
 # Git submodule shortcuts.
 alias gsf="exec_foreach_submodule"
@@ -90,4 +93,8 @@ alias tconfig="tail -f ${MICROSERVICE_LOGS}/configuration.log"
 alias tauth="tail -f ${MICROSERVICE_LOGS}/authorization.log"
 alias tdict="tail -f ${MICROSERVICE_LOGS}/dictionary.log"
 
+# Git alias for interacting with dotfiles.
 alias dotfiles='/usr/bin/git --git-dir=/home/lauraschanno/.dotfiles/ --work-tree=/home/lauraschanno'
+
+# Todo.txt alias.
+alias td="${HOME}/apps/todo.txt_cli-2.12.0/todo.sh"
