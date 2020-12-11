@@ -23,6 +23,7 @@
     aliases = !git config --get-regexp alias | sed -re 's/alias\\.(\\S*)\\s(.*)$/\\1 = \\2/g'
     # Command shortcuts
     c = commit
+    cm = commit -m
     co = checkout
     coall = checkout -- .
     cob = checkout -b
